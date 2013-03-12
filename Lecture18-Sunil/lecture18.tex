@@ -1,0 +1,270 @@
+\Lecture{Sunil K.S., Karthik Abhinav}{Feb 07, 2012}{18}{Proof of Toda's Theorem}
+%\theme{Between P and PSPACE}
+%\lectureplan{In this lecture we will be concluding the lectures on the
+%  theme of contrasting the power of counting to that of
+%  alternations. Today we will be proving the interesting result that
+%  $\PH \subseteq \P^{\#\P}$. To do this, first using the
+%  Valiant-Vazirani lemma we will show that $\PH \subseteq
+%  \BP(\parity\P)$.}
+\section{Valiant-Vazirani Lemma}
+We have already saw Valiant-Vazirani theorem which stated that :
+\begin{lemma} Valiant-Vazirani Theorem: There exists a probabilistic
+polynomial-time algorithm f such that for every n-variable boolean
+formula $\varphi$
+\begin{eqnarray*}
+  \varphi\in SAT\Rightarrow Pr[f(\chi)\in \parity SAT] &\geq& \frac{1}{8n} \\
+  \varphi\notin SAT\Rightarrow Pr[f(\chi)\in \parity SAT] &=& 0
+\end{eqnarray*}
+\end{lemma}
+But to prove that $\PH \subseteq \BP(\parity\P)$ we will need
+amplified version of this lemma.
+\begin{lemma}
+Valiant-Vazirani lemma (Amplified version): There exists a randomized
+algorithm which produce $\varphi$ from a given boolean formula $\phi$
+such that for a polynomial $q(n)$:
+\begin{eqnarray*}
+  x\in L \Rightarrow Pr[\varphi\in \parity SAT] &\geq&
+  \left(1-\frac{1}{2^{q(n)}}\right) \\ 
+  x\notin L \Rightarrow Pr[\varphi\in \parity SAT] &\leq& \left(\frac{1}{2^{q(n)}}\right)
+\end{eqnarray*}
+\end{lemma}
+
+\section{Toda's Theorem: $\PH\subseteq\P^{\#\P}$} Any problem in $\PH$
+can be solved by a $\P$ machine by making queries to a $\#\P$ oracle.\newline
+
+\textbf{Proof} \newline
+This theorem will be proved in two parts
+\begin{itemize}
+ \item 
+ $\PH\subseteq\BP(\parity\P)$
+ \item
+ $\BP(\parity\P) \subseteq \P^{\#P}$
+\end{itemize}
+
+% This part has been untouched. Should be modified
+\textbf{Claim}: $\PH\subseteq\BP(\parity\P)$
+\begin{proof} Proof by induction on the number of alterations, $k$.\\
+  Basis: for $k=0$, we already have the result
+  $\NP\subseteq\BP(\parity\P)$.\\ Assume the result for $k$. ie;
+  $\Sigma_k$ or $SAT_k$ $\in \BP(\parity\P)$.\\ We need to prove that
+  $SAT_{k+1}\in \BP(\parity\P)$.
+
+  Consider a language L $\in \Sigma_{k+1}^{p}$, 
+  $$ x \in L \Leftrightarrow \exists y_{1} \forall y_{2} (y_{1},y_{2}) \in B$$ where $B \in \Sigma_{k}^{p}$
+  
+  From inductive hypothesis, there exists a formula $\phi(x)$ such that $B$ can be reduced to $\parity \SAT$. \\
+  Consider the formula ,
+  $$\phi_{1}(x,y_{1},y_{2}) = \phi(x) \wedge (h_{1}(y_{2}) = 0^{k_{2}}) \wedge (h_{2}(y_{1}) = 0^{k_{1}})$$
+  where $h_{i}(x)$ is chosen from a pairwise independent hash family. \newline
+  
+  Now, using the techniques seen in last lecture, reduce this formula $\phi_{1}(x,y_{1},y_{2})$ to a formula $\psi(x)$ in $\parity \SAT$. \newline
+  Hence, 
+    $$ x \in L \Leftrightarrow \psi(x) \in \parity \SAT$$
+    Therefore, from induction, $\PH \leq_{r} \parity \P$.\newline
+    $\PH \subseteq \BP(\parity \P)$
+  
+ \begin{comment} 
+ $$\phi\in SAT_k\Rightarrow Pr[\parity_z\phi\land\tau(x,z)]\geq(1-\frac{1}{2^{q(n)}})$$
+$$\phi\notin SAT_k\Rightarrow Pr[\parity_z\phi\land\tau(x,z)]\leq \frac{1}{2^{q(n)}}   $$
+Now, any $\phi '\in SAT_{k+1}$ can be written as $\phi
+'=\exists\sigma$ where $\sigma\in SAT_k$
+$$\phi '\in SAT_{k+1}\Rightarrow\exists\sigma\in SAT_k\mbox{ with } \sigma\in\Pi_k$$
+
+Let $\sigma '=\exists(\lnot\varphi)$ where $\sigma=\lnot\varphi$\\
+$$\lnot(\forall\varphi)\Rightarrow\exists\sigma\Rightarrow Pr[\sigma '\in\parity SAT]\geq (1-\frac{1}{2^{q(n)}})$$
+$$\forall\varphi\Rightarrow\lnot\exists\sigma\Rightarrow Pr[\sigma '\notin\parity SAT]\geq (1-\frac{1}{2^{q(n)}})$$
+From inductive hypothesis,
+$$\forall\varphi\Rightarrow Pr[\sigma ''\in\parity SAT]\geq (1-\frac{1}{2^{q(n)}})$$
+$$\lnot\forall\varphi\Rightarrow Pr[\sigma ''\notin\parity SAT]\geq (1-\frac{1}{2^{q(n)}})$$
+$$\varphi\rightarrow\varphi\land(h(y)=0^k)\rightarrow\varphi\land(h(y)=0^{k_1}\land h(x)=0^{k_2})$$
+$$\phi=\exists\forall\varphi$$
+\end{comment}
+
+\end{proof}
+
+%End of untouched part
+
+\textbf{Claim}: $\BP(\parity\P) \subseteq \P^{\#\P}$
+
+Before proving the above claim, let us set up a following lemma. \newline
+
+Let $A \in \parity \P$, then by definition, \newline
+$$x \in A \implies \#acc_{M}(x) = -1~(mod~2)$$ 
+$$x \notin A \implies \#acc_{M}(x) = 0~(mod~2)$$
+
+But what Toda argued was that, not only does this hold true under modulo 2 operation, but under any modulo $2^{q(n)}$ operation where q(n) is a polynomial.
+
+\begin{lemma}
+ Let $A \in \parity \P$, then , \newline
+$$x \in A \implies \#acc_{M}(x) = -1~(mod~2^{q(n)})$$ 
+$$x \notin A \implies \#acc_{M}(x) = 0~(mod~2^{q(n)})$$
+ 
+\end{lemma}
+\begin{proof}
+ Let y = $\#acc_{M}(x)$,where M is the NDTM corresponding to the $\parity \P$ function f, such that f(x) = y. \newline
+ $$x \in A \implies y = -1~(mod~2^{q(n)})$$ 
+$$x \notin A \implies y = 0~(mod~2^{q(n)})$$
+ 
+ Now construct a polynomial m = $3y^{4}~+~4y^{3}$. Using the NDTM M(where $\#acc_{M}(x) = m$), construct a new NDTM M' such that,
+ $$\#acc_{M'}(x) = m$$
+ 
+  To construct such a NDTM, let us look at the following two constructions
+  \begin{itemize}
+   \item 
+    Construction of a machine M such that , $\#acc_{M}(x) = \#acc_{M_{1}}(x) + \#acc_{M_{2}}(x)$ \newline
+    Describe the NDTM M as its choice tree as follows : \newline
+    1) Create a new root node such that the machine can take two choices on it. \newline
+    2) On one of the choices, simulate the machine $M_{1}$.\newline
+    3) On the other choice, simulate machine $M_{2}$. \newline
+    4) Extend the leaves of the corresponding choice tree to balance the height. \newline
+    
+    This new choice tree will have $\#acc_{M}(x) = \#acc_{M_{1}}(x) + \#acc_{M_{2}}(x)$.
+    \item
+    Construction of a machine M such that , $\#acc_{M}(x) = \#acc_{M_{1}}(x) \times \#acc_{M_{2}}(x)$ \newline
+    Describe the NDTM M as its choice tree as follows : \newline
+    1) Create a choice tree of either machine $M_{1}$ or $M_{2}$. W.L.G., lets assume the choice tree of machine $M_{1}$. \newline
+    2) On each of the accept node of machine $M_{1}$, extend the tree downwards by simulating the machine $M_{2}$.\newline
+    3) On the reject nodes, extend the tree downwards to balance the height of the choice tree. \newline
+    
+    This new choice tree will have $\#acc_{M}(x) = \#acc_{M_{1}}(x) \times \#acc_{M_{2}}(x)$.
+    
+  \end{itemize}
+  
+  Using the above two constructions, a NDTM M' can be constructed from machine M. \newline \newline
+  Observe that, \newline
+   $$x \in A \implies y = -1~(mod~2^{2})$$ 
+   $$x \notin A \implies y = 0~(mod~2^{2})$$ 
+    via the NDTM M'
+    
+  Repeating the above procedure at the  $i^{th}$ iterations, we will have,
+    $$x \in A \implies y = -1~(mod~2^{2^{i}})$$ 
+    $$x \notin A \implies y = 0~(mod~2^{2^{i}})$$ 
+    
+  Hence, repeating the procedure for O($\log(q(n)$) iterations, we will have ,
+    $$x \in A \implies y = -1~(mod~2^{q(n)})$$ 
+    $$x \notin A \implies y = 0~(mod~2^{q(n)})$$ 
+  
+  
+  \textbf{Note}: \newline
+  An important observation in the proof is that, the height of the choice tree increases by a factor of 4 in every iteration. Hence, the height
+  of the choice tree in the final machine is $4^{\log(q(n))}$ , which is a polynomial. Hence, the running time of the finally obtained choice machine
+  is also polynomial and hence the function corresponding to it, still remains in $\parity \P$.
+\end{proof}
+
+Now, using the above lemma, lets prove $\BP(\parity\P) \subseteq \P^{\#\P}$ which will complete the proof of Toda's Theorem. \newline
+
+Consider $L \in \BP(\parity\P)$ \newline
+By definition,
+$$ Pr_{y\in \{0,1\}^{p(n)}} (x \in L \Leftrightarrow (x,y) \in A) \geq \frac{3}{4}$$ for some A $\in \parity \P$ \newline
+
+Consider h(x) = $|\{y:(x,y) \in A\}|$ \newline
+
+If we calculate the value of h(x) and estimate it to be greater than a fraction of $\frac{3}{4}$ , then accept x, else reject.\newline
+Hence, L $\in \P^{\#\P}$. \newline
+
+To estimate this value consider the function,
+$$ l(x) = \Sigma_{y\in \{0,1\}^{p(n)}} acc_{M}(x,y)$$
+This can be written as,
+$$ l(x) = \Sigma_{(x,y) \in A} acc_{M}(x,y) + \Sigma_{(x,y) \notin A} acc_{M}(x,y)$$
+$$ l(x) = (-1) \times h(x) + 0 (mod 2^{q(n)})$$
+$$ l(x) = -h(x) (mod 2^{q(n)})$$
+
+If we choose a large enough value of $2^{q(n)}$ , then we can determine value of h(x) uniquely from l(x). Formally, 
+ h(x) $< 2^{q(n)}$ \newline
+ 
+ We can easily see that function l(x) $\in \#\P$. i.e. Create an NDTM $M'$ , which first guesses nondeterministically a string $y \in \{0,1\}^{p(n)}$,
+ and simulates $M$ on $(x,y)$. The number of accepting paths of the machine $M'$ is precisely equal to l(x).
+
+
+\begin{comment}
+\begin{lemma}
+\label{lemma1} If $\mathcal{A}\in \parity\P$ then $\exists B$ such
+that for any polynomial $q$ and input $x$ of length $n$,
+$$x\in \mathcal{A}\Rightarrow (\#(x,y)\in B)\equiv -1 \mod 2^{q(n)}$$
+$$x\notin \mathcal{A}\Rightarrow (\#(x,y)\in B)\equiv 0 \mod 2^{q(n)}$$
+
+Now we can state the lemma as, Let $\mathcal{A}\in \parity\P$. Then
+for any polynomial $q$, there exists a polynomial-time NTM M such that
+for any input $x$ of length $n$,
+$$x\in \mathcal{A}\Rightarrow (\chi_M(x))\equiv -1\mod 2^{q(n)}$$
+$$x\notin \mathcal{A}\Rightarrow (\chi_M(x))\equiv 0 \mod 2^{q(n)}$$
+Here $\chi_M(x)$ denotes the number of accepting computations of $M$
+on $x$.
+\end{lemma}
+\begin{proof} Let $M_1$ be a polynomial time NTM such that
+$$\chi_{M_1}\equiv 1\mod 2\mbox{ if } x\in \mathcal{A}$$ %and
+$$\chi_{M_1}\equiv 0\mod 2 \mbox{ if }x\notin \mathcal{A}$$ 
+
+In other words,
+$$x\in \mathcal{A}\Rightarrow (\#acc_M(x)) \mbox{ is odd}$$
+$$x\notin \mathcal{A}\Rightarrow (\#acc_M(x))\mbox{ is even}$$
+
+
+Define another polynomial time NTM $M_2$ that repeats $M_1$ on $x$ a
+number of times such that
+$$x\in \mathcal{A}\Rightarrow (\#acc_{M_2}(x)) \mbox{ is odd}$$
+$$x\notin \mathcal{A}\Rightarrow (\#acc_{M_2}(x))\mbox{ is even}$$
+
+Note: Given two NDTMs $M_1$ and $M_2$, we know how to get an $M_3$
+with:
+\begin{itemize}
+\item $\#acc_{M_3}(x)=\#acc_{M_1}(x)+\#acc_{M_2}(x) $: By running
+$M_1$ and $M_2$ in parallel.
+\item $\#acc_{M_3}(x)=\#acc_{M_1}(x)\times\#acc_{M_2}(x) $: By rnning
+$M_1$ and $M_2$ one after other.
+\end{itemize}
+
+Let $f(x,i)=\chi_{M_2}(<x,i>)$. It if clear that $f$ satisfies the
+recurrence relation given below:
+\begin{eqnarray}
+\label{rec} f(x,i+1)=3f(x,i)^4+4f(x,i)^3, i\geq0
+\end{eqnarray} From equation ~\ref{rec}
+$$f(x,0)\mbox{ is even }\Rightarrow f(x,i)\equiv 0\mod 2^{2^i}$$
+$$f(x,0)\mbox{ is odd }\Rightarrow f(x,i)\equiv -1\mod 2^{2^i}$$
+Now from the above analysis,
+$$x\in \mathcal{A}\Rightarrow (\chi_M(x)\equiv  -1\mod 2^{2^{\log q(n)}}\equiv -1\mod 2^{q(n)}$$
+$$x\notin \mathcal{A}\Rightarrow (\chi_M(x)\equiv  0\mod 2^{2^{\log q(n)}}\equiv 0\mod 2^{q(n)}$$
+\end{proof}
+
+
+\begin{theorem} $\BP(\parity\P)\subseteq \P^{\#\P}$
+\end{theorem}
+\begin{proof} $L\in \BP(\parity\P)$ means there exists a set
+$\mathcal{A} \in \parity\P$ and a polynomial $p$ such that for all
+$x$,
+$$x\in L \Rightarrow Pr_y[(x,y)\in \mathcal{A}]\geq \frac{2}{3}$$
+$$x\notin L \Rightarrow Pr_y[(x,y)\in \mathcal{A}]\leq \frac{1}{3}$$
+where $y$ ranges over all strings of length $p(|x|)$.
+
+By lemma ~\ref{lemma1}, if $\mathcal{A} \in \parity\P$, there exists a
+polynomial-time NTM M such that for all $(x,y)$, with $|x|=n$ and
+$|y|=p(n)$
+$$\chi_M(<x,y>)\equiv -1\mod 2^{p(n)}, \mbox{ if } <x,y>\in\mathcal{A}$$
+$$\chi_M(<x,y>)\equiv 0\mod 2^{p(n)}, \mbox{ if } <x,y>\notin\mathcal{A}$$
+
+
+Let $g(x)$ and $h(x)$ are two functions defined as,
+\begin{eqnarray*} g(x)=|\{y:|y|=p(|x|),(x,y)\in \mathcal{A}\}|\\
+h(x)=\displaystyle\sum_{|y|=p(|x|)}\chi_M(<x,y>)
+\end{eqnarray*} Then for any $x$ of length $n$,
+\begin{eqnarray*}
+h(x)&=&\displaystyle\sum_{<x,y>\in\mathcal{A}}\chi_M(<x,y>)+\displaystyle\sum_{(<x,y>\notin\mathcal{A})}\chi_M(<x,y>)\\
+&=&(\displaystyle\sum_{<x,y>\in\mathcal{A}}(-1)+\displaystyle\sum_{(<x,y>\notin\mathcal{A})}0)\mod
+2^{q(n)}\\ %&\equiv&(g(x).(-1)+(2^{p(n)}-g(x)).0)\mod 2^{p(n)}\\
+&\equiv&(g(x).(-1)+(2^{p(n)}-g(x)).0)\mod 2^{p(n)}\\
+&\equiv&(-g(x))\mod 2^{p(n)}
+\end{eqnarray*} Construct a machine $N$ that has $h(x)$ accepting path
+(Just guess a $y$ and run $N$). Now make a query to a $\#\P$ machine
+to compute $h(x)$. By having $q(n)$ sufficiently large, ie.,
+$2^{q(n)}>2{p(n)}$ we can compute $g(x)=(2^{p(n)}-h(x))$.
+
+We know $x\in L$ if and only if $g(x)>2^{p(n)-1}$. Since $g(x)$ can be
+computed from $h(x)$ and $p(n)$ it is clear that we can decide whether
+$x\in L$ from $h(x)$. The function $h$ is in $\#\P$, we can define an
+NTM $M_1$ that on input $x$ first nondeterministically guesses a
+string $y$ of length $p(|x|)$ and then simulate $M$ on $<x,y>$.
+Hence, $L\in P^{\#\P}$.
+\end{proof}
+
+\end{comment}
+

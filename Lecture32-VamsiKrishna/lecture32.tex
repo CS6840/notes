@@ -1,0 +1,77 @@
+\documentclass[11pt]{article}
+\input{preamble.tex}
+
+\begin{document}
+\lecture{31}{Expander Graphs, Degree reduction}{March 02 2012}{Jayalal Sharma}{Vamsi Krishna D}
+\theme{Probabilistic Proof Systems}
+\lectureplan{ In the last class we have given the outline of Irit Dinur's proof of PCP Theorem in which we viewed SAT as qCSP Problem .We then transformed the q-query CSP to 2-query CSP $\Psi$  .In general, after applying query reduction, the constraint graph constructed from 2-query CSP may have very large degree.Now the goal is to make the degree of the graph constant independent of the instance size , for which we will be using a special type of graphs called expander graphs.
+ }
+\newline \textbf {Expander Graphs}
+A family $G$ = $\{G_{1}, G_{2}, \ldots \}$ of d-regular undirected graphs is an "edge expander family" if there is a constant $\alpha > 0$ such that $\forall G^{'} \in G $, $\forall S\subseteq V(G^{'}) ,|S| \leqslant \frac{1}{2}.|V| $
+\newline $E(S,S^c)\geqslant \alpha .d.|S|$
+\newline Algebrically expander graphs have intereresting properties.Let $A^{'} = \frac{1}{d}.A$ where A is the adjacency matrix of the expander graph.Because $A^{'}$ is symmetric, the spectral theorem implies that A has n real-valued eigenvalues $\lambda_1 \ge \lambda_2 \ge \cdots \ge \lambda_{n} $ between -1 and 1. Because G is regular, $\lambda_1=1$. In some contexts, the spectral gap of G is defined to be $1-\lambda_2$. In other contexts, the spectral gap is $1-\lambda$, where
+
+    $\lambda=\max\{|\lambda_2|, |\lambda_{n}|\}.$
+
+\textbf {Theorem}
+Constant degree expander graphs exist and can be constrcuted explicitly.
+\newline We will use this theorem in our analysis without proof.
+
+\textbf{Random walks on Graphs}
+A random walk of length k on a  graph G with a root 0 is a stochastic process with random variables $X_1,X_2,\dots,X_k $ such that $X_1=0$ and ${X_{i+1}}$  is a vertex chosen uniformly at random from the neighbors of $X_i$.Let $P_{i}$ be a random vector of dimension n ,where n is the number of vertices in the graph , whose $j^{th}$ component  gives the probabilities of the walk being at that $j^{th}$ vertex after i steps of Random walk.We can see that 
+
+$P_{i+1}=A^{'}P_{i}$
+
+ 
+The larger the spectral gap ,the smaller the number of walks required to be equally probable of ending at any vertex in graph.
+
+\textbf{Degree Reduction}
+Let $G$ be a constraint graph of $\Psi$.We create a new CSP $\Psi^{'}$ by replacing every vertex i in G of
+degree $n_i$ by a cloud of $n_i$ vertices. So each variable $x_i$ of $\Psi$ will give rise to $n_i$ variables $x^{'}_{i1} , \ldots , x^{'}_{in_{i}}$ in $\Psi^{'}$ . Each constraint in $\Psi$ gives rise to d/2 parallel constraints in $\Psi^{'}$between unique vertices in
+the corresponding clouds. Within each cloud, we interconnect the vertices by a 1/4-edge expander
+and make each expander constraint an equality constraint (i.e. requiring that variables get the
+same value). Notice that if $\Psi$ has m constraints, then $\Psi^{'}$ will have $m$ variables and $dm$ constraints.
+\newline Clearly, if $\Psi$  has a satisfying assignment x, we can obtain a satisfying assignment for $\Psi^{'}$ by setting
+$x^{'}_{i1} = \ldots = x^{'}_{in_{i}}= x_i$ for every i.
+
+Now we prove soundness.
+
+\textbf {Theorem}
+If some assignment $x^{'}$ the violates at most an $\varepsilon$ -fraction of contraints in $\Psi^{'}$  , then there
+exists an assignment $x$ that violates at most a 18$\varepsilon $ fraction of constraints in $\Psi$.
+
+\textbf {Proof}
+The assignment $x$ is obtained from $x^{'}$ as follows: Within each cloud, let $x_i$ be the plurality value (i.e.,
+the most representative value) among $x^{'}_{i1} , \ldots , x^{'}_{in_{i}}$. Let $\varepsilon_{i}$ be the fraction of constraints violated in cloud i. Then $\Sigma_{i=1}^{n} \varepsilon_i · (dn_{i} /4) ≤ \varepsilon ·(dm/2)$, the total number of violated constraints.
+
+Let’s fix a cloud i. Let $S_i$ be the set of vertices j within this cloud where $x_{ij}^{'}$ agrees with the
+plurality assignment. We will argue that, because of the expansion in the cloud, the assignment
+within the cloud must largely agree with the plurality assignment. We split the analysis into three
+cases:
+
+ i) If $|S_i| > n_i/2$, then by edge expansion $|E(S_i , S_{i}^{c} )| \geq  d|S_{i}^{c}|/4$. Since all the constraints in the cut $(S_i , S_{i}^{c} )$ are violated by the assignment, $|E(S_i , S_{i}^{c} )| \leq  \varepsilon_{i}(dn_i/4)$, so $|S_{i}^{c}| \leq  4ε_i n_i$ .
+
+ ii) If $n_i/4 \leq  |S_i|\leq   n_i/2$, then by edge expansion $|E(S_i , S_{i}^{c} )| \geq  d|S_i|/4 \geq dn_i/16$. Since all the
+constraints in the cut are violated, it follows that $\varepsilon_{i} \geq 1/4$, so $|S_{i}^{c}| \leq  n_i \leq 4\varepsilon_i n_i$ .
+
+ iii) If $|S_i | < n_i /4$, then no value in $\Sigma$  is taken more than $\frac{1}{4}$-fraction of the time inside the cloud,
+so there must exist some partition of the values within the cloud so that the smaller side of
+the partition has between $\frac{n_i}{4}$ and  $\frac{n_i}{2}$ vertices. Just like in the previous case, we get that
+$|S_{i}^{c} | \leq  n_i \leq  4\varepsilon_i n_i$ .
+In all cases above, $|S_{i}^{c} | \leq  4\varepsilon_i n_i$ for every i.
+
+Now consider what happens in $\Psi^{'}$ when we replace the assignment $x^{'}$ with the plurality assignment
+$x_{plur}^{'}$ (i.e. one that equals the plurality of x on every cloud). For each cloud, this may cause the
+violation of at most $(d/2)|S_{i}^{'}|$ additional constraints that go out of the cloud. So if $x^{'}$ violates $\varepsilon dm$
+constraints in $\Psi^{'}$ , $x_{plur}^{'}$ will violate at most
+$ \varepsilon (dm)/2 + \Sigma_{i=1}^{n} (d/2)|S_{i}^{c}|$
+$ \leq \varepsilon (dm)/2 + \Sigma_{i=1}^{n} (d/2)4\varepsilon_i n_i$
+$ \leq \varepsilon (dm)/2 + 8(\varepsilon (dm)/2 )$
+$= 9(\varepsilon (dm)/2 )$ .
+constraints of $\Psi^{'}$. This is a 9$\varepsilon $-fraction of all the constraints in $\Psi^{'}$ . So the assignment x can violate at most a 18$\varepsilon $ fraction of constraints in $\Psi $.
+\newline So the soundness gap goes down by at most a constant factor in this transformation .
+Acknowledgements:
+\newline--Lecture notes of Prof.Jayalal Sharma
+\newline--Lecture 13 , Theory of Computational Complexity , The Chinese University of Hong Kong Scribe.
+\newline--The PCP Theorem by Gap Amplification by Irit Dinur.
+\end{document}

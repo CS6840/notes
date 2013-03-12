@@ -1,0 +1,47 @@
+\Lecture{Vamsi Krishna D}{February 09 2012}{19}{Interactive Proofs - Introduction and examples}
+%\theme{Interactive Proof Systems}
+In this lecture we will be introducing the idea of Interactive proofs (IP).We will start with the weak version of IP (called PS) and then allow for some errors to get IP and finally we will show the Interactive proof system for GNI.
+\newline \textbf {Interactive Proofs}
+	\newline Interactive Proofs can be thought of  as a technique that models computation using communication between two parties ,one called Prover P which has the unlimited computational power  and tries to convince the verfier V which is a polynomial time Machine ,which is modeled as PS complexity class .Later we will insert randomness and allow  the V to commit some small error to define the complexity class $\IP$.The communication between the Prover and verfier is only allowed to be of polynomial length.
+\subparagraph{\textbf {NP Vs PS}\newline}Let's consider $\SAT$ which is a $\NP$-Complete Problem.A Prover verfier Strategy works for this as shown below
+
+          Let $\phi$ is the formula availiable to both prover and verfier 
+          \newline PROVER  $ \xrightarrow{send an assignment (\sigma )} $  verfier
+
+          Now the verfier checks whether $\sigma$ satisfies $\phi$. If there exists such an assingnment the best strategy of the Prover is to send the satisfying assingnment.Otherwise no matter what Prover sends verfier rejects.Formally
+
+ $ x \in SAT  \Rightarrow \exists P (P,V) $accepts.
+
+ $x \notin SAT \Rightarrow \forall P (P,V)$ rejects.
+
+ Hence SAT $\in $ PS.Thereby we can say $\NP\subseteq PS$.
+
+          Now let's think about the reverse case $ PS \subseteq \NP$.For any Language $\L$ accepted by PS strategy , we can get a $\NP$ machine accepting the same $\L$ , as an $\NP$ machine gets the accepting certificate if exists .So we can say  $\NP= PS$.
+
+Now let us see whether $\Pi_{2}\subseteq PS $ .Let $\L \in \Pi_{2} $.
+\newline $ x \in \L  \Leftrightarrow  \forall y \exists z (x,y,z)\in B $ where B is a polynomial time Turing machine .
+\newline \textbf{Prover strategy} : Let verfier choose any 'y' ,the Prover gives 'z' such that (x,y,z) $\in B $.
+\newline With this strategy the Prover can cheat the verfier  when $ x \notin \L$  since  can Query only a Polynomial times to the Prover.So the prover get's away without having to give a 'z' for all 'y'.
+But if we randomize the verfier then there is a chance that the Prover is going to be caught and such a strategy is called 
+Interactive Proofs (IP).
+
+
+\textbf {Definition of IP:}
+\newline $ x \in \L  \Rightarrow \exists P $ such that Pr(Prover convinces verfier) $ \geq \frac{1}{2}+\epsilon $ for $ \epsilon >0$.
+
+ $ x \notin \L  \Rightarrow \forall P$  Pr(Prover convinces verfier)  $\leq \frac{1}{2}-\epsilon $ for $ \epsilon >0$.
+
+The  argument of Amplication Lemma can be used to show for any arbitary $0<\epsilon<\frac{1}{2}$ defintions are equivalent.
+
+ \textbf {Graph Non-Isomorphism(GNI):}
+\newline GNI$= \{(G_{1},G_{2}):\forall permutations \pi ,G_{1}\neq \pi(G_{2})\}$
+
+ \textbf {Theorem 19.0:}  GNI $\in $ IP.
+\newline \textbf{Proof}: The following are the stratagies of 
+
+ \textbf{Verfier:} Pick $\G_{i}$ randomly from $\{G_{1},G_{2}\}$ and produce $\G^\prime =\pi(\G_{i})$ and send it across the Prover where $\pi$ is a random permuatation.
+\newline \textbf{Prover:} Compare $\G^\prime$ to $G_{1},G_{2}$.If it is isomorphic to one of them then return that one.If it is isomorphic with both of them then randomly return $G_{1}$ or $G_{2}$.
+\newline \textbf{Verfier:}If the prover is correct then accept other wise reject .
+
+ For $G_{1}\ncong G_{2}$,the prover makes the Verfier accept.For $G_{1}\cong G_{2}$, the Prover can make the Verfier to accept with a maximum Probability of $\frac{1}{2}$ ,because $G_{1}\cong G_{2}$ then the Prover outputs randomly any one graph.
+\end{document}

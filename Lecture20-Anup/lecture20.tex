@@ -1,15 +1,10 @@
-\documentclass[11pt]{article}
-\usepackage{amsmath,amssymb,amsfonts,amsthm,complexity}
-
-\newcommand{\perm}{{\sf perm}}
+\renewcommand{\perm}{{\sf perm}}
 \newcommand{\GNI}{{\sf GNI}}
 
-\input{preamble.tex}
-\begin{document}
-\lecture{20}{Interactive protocol for Permanent}{Feb 13, 2012}{Jayalal Sarma M.N.}{Anup Joshi}
-\theme{Between $\P$ and $\PSPACE$.}
-\lectureplan{ Proof of correctness of $\GNI$ protocol, Historical Aspects of $\IP$, $P^{\#P}$, and
-final proof. The interactive protocol for the permanent (outline).}
+\Lecture{Anup Joshi}{Feb 13, 2012}{20}{Interactive protocol for Permanent}
+%\theme{Between $\P$ and $\PSPACE$.}
+%\lectureplan{ Proof of correctness of $\GNI$ protocol, Historical Aspects of $\IP$, $P^{\#P}$, and
+%final proof. The interactive protocol for the permanent (outline).}
 
 \section{Proof of correctness of $\GNI$ protocol}
 In the last lecture we have seen an interactive protocol for $\GNI$, here we argue about the
@@ -105,4 +100,3 @@ of $x$. The prover has to cheat on one of $A_1$ or $A_2$, in order to meet the c
 $D(0) = A_2$ and $D(1) = A_1$, hence once the prover has cheated it has to repeatedly cheat on the
 subsequent interactions in order to fool the verifier. This leaves a very low margin of error for
 the prover. This is the LFKN protocol, which we will see in detail in the next lecture.
-\end{document}

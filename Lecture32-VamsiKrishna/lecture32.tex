@@ -1,11 +1,8 @@
-\documentclass[11pt]{article}
-\input{preamble.tex}
-
-\begin{document}
-\lecture{31}{Expander Graphs, Degree reduction}{March 02 2012}{Jayalal Sharma}{Vamsi Krishna D}
-\theme{Probabilistic Proof Systems}
-\lectureplan{ In the last class we have given the outline of Irit Dinur's proof of PCP Theorem in which we viewed SAT as qCSP Problem .We then transformed the q-query CSP to 2-query CSP $\Psi$  .In general, after applying query reduction, the constraint graph constructed from 2-query CSP may have very large degree.Now the goal is to make the degree of the graph constant independent of the instance size , for which we will be using a special type of graphs called expander graphs.
- }
+\Lecture{Vamsi Krishna D}{March 02 2012}{31}{Expander Graphs, Degree reduction}
+%\theme{Probabilistic Proof Systems}
+%\lectureplan{ 
+In the last class we have given the outline of Irit Dinur's proof of PCP Theorem in which we viewed SAT as qCSP Problem .We then transformed the q-query CSP to 2-query CSP $\Psi$  .In general, after applying query reduction, the constraint graph constructed from 2-query CSP may have very large degree.Now the goal is to make the degree of the graph constant independent of the instance size , for which we will be using a special type of graphs called expander graphs.
+% }
 \newline \textbf {Expander Graphs}
 A family $G$ = $\{G_{1}, G_{2}, \ldots \}$ of d-regular undirected graphs is an "edge expander family" if there is a constant $\alpha > 0$ such that $\forall G^{'} \in G $, $\forall S\subseteq V(G^{'}) ,|S| \leqslant \frac{1}{2}.|V| $
 \newline $E(S,S^c)\geqslant \alpha .d.|S|$

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+fig4latex -d Lecture35-Dinesh/figs -p
+make
+sed -i 's/.pdf//' *.tex
+mv *.tex ..
+rm -f *.eps
